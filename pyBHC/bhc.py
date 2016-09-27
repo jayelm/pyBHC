@@ -28,7 +28,7 @@ class bhc(object):
     """
 
 
-    def __init__(self, data, data_model, crp_alpha=1.0):
+    def __init__(self, data, data_model, crp_alpha=1.0, quiet=False):
         """
         Init a bhc instance and perform the clustering.
 
@@ -42,6 +42,8 @@ class bhc(object):
             function for the data.
         crp_alpha : float (0, Inf)
             CRP concentration parameter.
+        quiet : bool
+            If True, don't log clustering progress.
         """
         self.data = data
         self.data_model = data_model
@@ -58,9 +60,10 @@ class bhc(object):
         rks = []
 
         while n_nodes > 1:
-            sys.stdout.write("\r{0:d} of {1:d} ".format(n_nodes,
-                                                        start_n_nodes))
-            sys.stdout.flush()
+            if not quiet:
+                sys.stdout.write("\r{0:d} of {1:d} ".format(n_nodes,
+                                                            start_n_nodes))
+                sys.stdout.flush()
 
             max_rk = float('-Inf')
             merged_node = None
